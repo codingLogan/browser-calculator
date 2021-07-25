@@ -1,17 +1,17 @@
 // App initialization
 let applicationState = {
   debug: true,
-  result: "",
-  storedOperand: "", // saved number
-  editableOperand: "0", // the number being built by the user
-  selectedOperation: "", // +-x/
+  result: null,
+  storedOperand: null, // saved number
+  editableOperand: null, // the number being built by the user
+  selectedOperation: null, // +-x/
 };
 
 function resetState() {
-  applicationState.result = "";
-  applicationState.storedOperand = "";
-  applicationState.editableOperand = "0";
-  applicationState.selectedOperation = "";
+  applicationState.result = null;
+  applicationState.storedOperand = null;
+  applicationState.editableOperand = null;
+  applicationState.selectedOperation = null;
 }
 
 function setOperation(operation) {
@@ -22,14 +22,22 @@ function refreshDisplay() {
   debugLog(applicationState);
   // Show the most recent values for operation
   const pending = document.getElementById("pending");
-  pending.innerText = `${applicationState.storedOperand} ${applicationState.selectedOperation} ${applicationState.editableOperand}`;
+  if (
+    applicationState.storedOperand ||
+    applicationState.selectedOperation ||
+    applicationState.editableOperand
+  ) {
+    pending.innerText = `${applicationState.storedOperand ?? ""} ${
+      applicationState.selectedOperation ?? ""
+    } ${applicationState.editableOperand ?? ""} ${
+      applicationState.result !== null ? "=" : ""
+    }`;
+  } else {
+    pending.innerText = "0";
+  }
 
   const display = document.getElementById("results");
-  if (applicationState.result) {
-    display.innerText = applicationState.result;
-  } else {
-    display.innerText = "";
-  }
+  display.innerText = applicationState.result ?? "";
 }
 
 function buildNumberButtons() {
@@ -47,14 +55,14 @@ function buildNumberButtons() {
 }
 
 function storeOperand() {
-  if (applicationState.result) {
+  if (applicationState.result !== null) {
     applicationState.storedOperand = applicationState.result;
-    applicationState.result = "";
+    applicationState.result = null;
   } else {
     applicationState.storedOperand = applicationState.editableOperand;
   }
 
-  applicationState.editableOperand = "0";
+  applicationState.editableOperand = null;
 }
 
 function setActionEvents() {
@@ -70,7 +78,7 @@ function setActionEvents() {
   });
 
   document.getElementById("equals").addEventListener("click", (event) => {
-    if (applicationState.result !== "") {
+    if (applicationState.result !== null) {
       applicationState.storedOperand = applicationState.result;
     }
 
@@ -92,21 +100,17 @@ function setActionEvents() {
 function getUserNumber() {
   const currentResult = document.getElementById("results").innerText;
 
-  // Return blank string if "empty"
-  if (currentResult == "0" || !currentResult) {
-    return "";
-  }
-
-  return currentResult;
+  // Return blank string if "null-ish"
+  return currentResult ?? "";
 }
 
 function onNumberClick(event) {
   const value = event.target.value;
-  if (applicationState.result !== "") {
+  if (applicationState.result !== null) {
     resetState();
   }
 
-  if (applicationState.editableOperand == "0") {
+  if (applicationState.editableOperand === null) {
     applicationState.editableOperand = value;
   } else {
     applicationState.editableOperand += value;
