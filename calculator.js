@@ -43,15 +43,20 @@ function refreshDisplay() {
 function buildNumberButtons() {
   const buttonContainer = document.getElementById("number-buttons");
 
-  for (let i = 0; i < 10; i++) {
+  const buildButton = (val) => {
     const numberButton = document.createElement("button");
-    numberButton.value = i;
-    numberButton.textContent = i.toString();
+    numberButton.value = val;
+    numberButton.textContent = val.toString();
     numberButton.classList.add("number-button");
     numberButton.addEventListener("click", onNumberClick);
 
     buttonContainer.appendChild(numberButton);
+  };
+
+  for (let i = 1; i < 10; i++) {
+    buildButton(i);
   }
+  buildButton(0);
 }
 
 function storeOperand() {
