@@ -11,8 +11,12 @@ This website is mostly being created "for fun". Extra time spent on a plane ride
 - Multiplication
 - Division
 
-## Cherry on top
+## Image of working calculator
 
-- Style
-- Animation
-- Sounds
+![Calculator showing a simple calculation](images\simple-calculator.png)
+
+## Potential Additions
+
+- decimals
+- animations?
+- scientific (more complex expressions)
