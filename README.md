@@ -13,7 +13,7 @@ This website is mostly being created "for fun". Extra time spent on a plane ride
 
 ## Image of working calculator
 
-![Calculator showing a simple calculation](images\simple-calculator.png)
+![Calculator showing a simple calculation](images/simple-calculator.png)
 
 ## Potential Additions
 
